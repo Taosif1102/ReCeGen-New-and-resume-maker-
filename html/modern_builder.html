@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Resume Builder - ReCeGen</title>
+    <link href="../css/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Modern Preview Styles */
+        .preview-page {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            display: flex;
+            overflow: hidden;
+        }
+        
+        /* Left Sidebar */
+        .sidebar {
+            width: 35%;
+            background-color: #e0f2f1; /* Light Teal */
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
+
+        .photo-container {
+            width: 150px;
+            height: 150px;
+            background-color: white;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            overflow: hidden;
+            border: 4px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 14pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
+        }
+
+        .sidebar-content p {
+            font-size: 10pt;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .contact-icon {
+            width: 24px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Right Content */
+        .main-content {
+            width: 65%;
+            padding: 40px 30px;
+            background-color: white;
+        }
+
+        .header-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 28pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            color: #222;
+        }
+
+        .header-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 12pt;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+            color: #555;
+        }
+
+        .main-section {
+            margin-bottom: 30px;
+        }
+
+        .main-section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 14pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            color: #222;
+        }
+
+        .experience-item, .education-item {
+            margin-bottom: 20px;
+        }
+
+        .item-title {
+            font-weight: 700;
+            font-size: 11pt;
+            text-transform: uppercase;
+        }
+
+        .item-subtitle {
+            font-weight: 600;
+            font-size: 10pt;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .item-desc {
+            font-size: 10pt;
+            color: #444;
+            line-height: 1.5;
+        }
+
+        /* Skill Bars */
+        .skill-item {
+            margin-bottom: 12px;
+        }
+        .skill-name {
+            font-weight: 600;
+            font-size: 10pt;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+        .skill-bar-bg {
+            width: 100%;
+            height: 6px;
+            background-color: #ccc;
+            border-radius: 3px;
+        }
+        .skill-bar-fill {
+            height: 100%;
+            background-color: #333;
+            border-radius: 3px;
+        }
+
+        @media print {
+            .no-print { display: none; }
+            .preview-page { box-shadow: none; margin: 0; width: 100%; height: 100%; }
+            body { background: white; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 h-screen flex flex-col overflow-hidden">
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white h-16 flex items-center justify-between px-6 z-20 shrink-0 shadow-md">
+        <div class="flex items-center gap-4">
+            <a href="templates.html" class="text-white/80 hover:text-white transition p-2 rounded-full hover:bg-white/10">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1 class="text-xl font-bold flex items-center gap-2 tracking-wide">
+                <i class="fas fa-palette"></i> Modern Resume Builder
+            </h1>
+        </div>
+        <div class="flex gap-3">
+            <button onclick="downloadPDF()" class="px-6 py-2.5 bg-white/10 text-white border border-white/20 rounded-lg text-sm font-bold hover:bg-white/20 transition flex items-center gap-2 backdrop-blur-sm">
+                <i class="fas fa-file-pdf"></i> Download PDF
+            </button>
+            <button onclick="downloadWord()" class="px-6 py-2.5 bg-white text-slate-900 rounded-lg text-sm font-bold hover:bg-slate-50 transition flex items-center gap-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                <i class="fas fa-file-word"></i> Microsoft Word File
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex overflow-hidden">
+        
+        <!-- Editor Panel -->
+        <div class="w-full md:w-1/2 lg:w-[480px] bg-white border-r border-gray-200 overflow-y-auto z-10 flex flex-col shadow-xl">
+            <div class="p-6 space-y-6 pb-32">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-gray-800">Editor</h2>
+                    <span class="text-xs font-medium text-teal-600 bg-teal-50 px-2 py-1 rounded-full">Modern Layout</span>
+                </div>
+
+                <form id="resumeForm" class="space-y-4">
+                    
+                    <!-- Personal Info -->
+                    <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                        <button type="button" class="accordion-btn w-full px-5 py-4 bg-white hover:bg-gray-50 flex justify-between items-center transition-colors group" onclick="toggleAccordion('personalInfo')" aria-expanded="true">
+                            <span class="font-semibold text-gray-700 flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors"><i class="fas fa-user"></i></span>
+                                Personal Info
+                            </span>
+                            <i class="fas fa-chevron-down accordion-icon text-gray-400"></i>
+                        </button>
+                        <div id="personalInfo" class="accordion-content active bg-white px-5 pb-5 space-y-4">
+                            <div class="pt-2">
+                                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Full Name</label>
+                                <input type="text" name="name" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition" placeholder="e.g. Michel Wilson" oninput="updatePreview()">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Job Title</label>
+                                <input type="text" name="jobTitle" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition" placeholder="e.g. Graphic & Web Designer" oninput="updatePreview()">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Photo</label>
+                                <input type="file" id="photoInput" accept="image/*" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition" onchange="updatePhoto()">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Email</label>
+                                    <input type="email" name="email" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition" placeholder="email@example.com" oninput="updatePreview()">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Phone</label>
+                                    <input type="text" name="phone" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition" placeholder="+1 234 567 890" oninput="updatePreview()">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Address</label>
+                                <input type="text" name="address" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition" placeholder="City, Country" oninput="updatePreview()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile / Summary -->
+                    <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                        <button type="button" class="accordion-btn w-full px-5 py-4 bg-white hover:bg-gray-50 flex justify-between items-center transition-colors group" onclick="toggleAccordion('summarySection')" aria-expanded="false">
+                            <span class="font-semibold text-gray-700 flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-lg bg-pink-100 text-pink-600 flex items-center justify-center group-hover:bg-pink-600 group-hover:text-white transition-colors"><i class="fas fa-align-left"></i></span>
+                                Profile
+                            </span>
+                            <i class="fas fa-chevron-down accordion-icon text-gray-400"></i>
+                        </button>
+                        <div id="summarySection" class="accordion-content bg-white px-5 pb-5">
+                            <textarea name="objective" rows="5" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition resize-none" placeholder="Short professional bio..." oninput="updatePreview()"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Experience -->
+                    <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                        <button type="button" class="accordion-btn w-full px-5 py-4 bg-white hover:bg-gray-50 flex justify-between items-center transition-colors group" onclick="toggleAccordion('experienceSection')" aria-expanded="false">
+                            <span class="font-semibold text-gray-700 flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors"><i class="fas fa-briefcase"></i></span>
+                                Experience
+                            </span>
+                            <i class="fas fa-chevron-down accordion-icon text-gray-400"></i>
+                        </button>
+                        <div id="experienceSection" class="accordion-content bg-white px-5 pb-5 space-y-4">
+                            <div id="experienceList" class="space-y-4">
+                                <!-- Dynamic Experience Items -->
+                            </div>
+                            <button type="button" onclick="addExperience()" class="w-full py-3 border-2 border-dashed border-indigo-200 text-indigo-600 rounded-lg font-semibold hover:bg-indigo-50 hover:border-indigo-300 transition flex items-center justify-center gap-2">
+                                <i class="fas fa-plus"></i> Add Position
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Education -->
+                    <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                        <button type="button" class="accordion-btn w-full px-5 py-4 bg-white hover:bg-gray-50 flex justify-between items-center transition-colors group" onclick="toggleAccordion('educationSection')" aria-expanded="false">
+                            <span class="font-semibold text-gray-700 flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-lg bg-green-100 text-green-600 flex items-center justify-center group-hover:bg-green-600 group-hover:text-white transition-colors"><i class="fas fa-graduation-cap"></i></span>
+                                Education
+                            </span>
+                            <i class="fas fa-chevron-down accordion-icon text-gray-400"></i>
+                        </button>
+                        <div id="educationSection" class="accordion-content bg-white px-5 pb-5 space-y-4">
+                            <div id="educationList" class="space-y-4">
+                                <!-- Dynamic Education Items -->
+                            </div>
+                            <button type="button" onclick="addEducation()" class="w-full py-3 border-2 border-dashed border-indigo-200 text-indigo-600 rounded-lg font-semibold hover:bg-indigo-50 hover:border-indigo-300 transition flex items-center justify-center gap-2">
+                                <i class="fas fa-plus"></i> Add Education
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Skills with Level -->
+                    <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                        <button type="button" class="accordion-btn w-full px-5 py-4 bg-white hover:bg-gray-50 flex justify-between items-center transition-colors group" onclick="toggleAccordion('skillsSection')" aria-expanded="false">
+                            <span class="font-semibold text-gray-700 flex items-center gap-3">
+                                <span class="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition-colors"><i class="fas fa-tools"></i></span>
+                                Skills
+                            </span>
+                            <i class="fas fa-chevron-down accordion-icon text-gray-400"></i>
+                        </button>
+                        <div id="skillsSection" class="accordion-content bg-white px-5 pb-5 space-y-4">
+                            <div id="skillsList" class="space-y-4">
+                                <!-- Dynamic Skills -->
+                            </div>
+                            <button type="button" onclick="addSkill()" class="w-full py-3 border-2 border-dashed border-indigo-200 text-indigo-600 rounded-lg font-semibold hover:bg-indigo-50 hover:border-indigo-300 transition flex items-center justify-center gap-2">
+                                <i class="fas fa-plus"></i> Add Skill
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <!-- Preview Panel -->
+        <div class="flex-1 bg-slate-200 overflow-y-auto p-8 lg:p-12 flex flex-col items-center">
+            
+            <!-- Zoom Controls -->
+            <div class="fixed bottom-8 right-8 z-30 flex gap-2 bg-white p-2 rounded-full shadow-xl border border-gray-200 no-print">
+                <button onclick="adjustZoom(-0.1)" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center transition"><i class="fas fa-minus"></i></button>
+                <span id="zoomLevel" class="flex items-center justify-center w-12 font-medium text-sm text-gray-600">100%</span>
+                <button onclick="adjustZoom(0.1)" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center transition"><i class="fas fa-plus"></i></button>
+            </div>
+
+            <div class="preview-container">
+                <div id="resumePreview" class="preview-page">
+                    
+                    <!-- Sidebar -->
+                    <div class="sidebar">
+                        <div class="photo-container">
+                            <img id="prev-photo" src="" alt="Profile" class="hidden">
+                            <i id="photo-placeholder" class="fas fa-user text-6xl text-gray-300"></i>
+                        </div>
+
+                        <div class="sidebar-section">
+                            <h3 class="sidebar-title">Profile</h3>
+                            <div class="sidebar-content">
+                                <p id="prev-objective">Graphic designer with 5+ years of experience...</p>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-section">
+                            <h3 class="sidebar-title">Contact Me</h3>
+                            <div class="sidebar-content">
+                                <div class="contact-item">
+                                    <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                    <span id="prev-address">New York, USA</span>
+                                </div>
+                                <div class="contact-item">
+                                    <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                                    <span id="prev-phone">+1 234 567 890</span>
+                                </div>
+                                <div class="contact-item">
+                                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                                    <span id="prev-email">info@example.com</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Skills in Sidebar -->
+                        <div class="sidebar-section">
+                            <h3 class="sidebar-title">My Pro Skill</h3>
+                            <div id="prev-skills">
+                                <!-- Skills -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="main-content">
+                        <h1 id="prev-name" class="header-name">MICHEL WILSON</h1>
+                        <h2 id="prev-jobTitle" class="header-title">GRAPHIC & WEB DESIGNER</h2>
+
+                        <div class="main-section">
+                            <h3 class="main-section-title">Education</h3>
+                            <div id="prev-education">
+                                <!-- Education Items -->
+                            </div>
+                        </div>
+
+                        <div class="main-section">
+                            <h3 class="main-section-title">Experience</h3>
+                            <div id="prev-experience">
+                                <!-- Experience Items -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Zoom Logic
+        let currentZoom = 1;
+        function adjustZoom(delta) {
+            currentZoom = Math.max(0.5, Math.min(1.5, currentZoom + delta));
+            document.getElementById('resumePreview').style.transform = `scale(${currentZoom})`;
+            document.getElementById('zoomLevel').innerText = `${Math.round(currentZoom * 100)}%`;
+        }
+
+        // Accordion Logic
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const btn = content.previousElementSibling;
+            const isActive = content.classList.contains('active');
+            
+            document.querySelectorAll('.accordion-content').forEach(el => {
+                el.classList.remove('active');
+                el.previousElementSibling.setAttribute('aria-expanded', 'false');
+            });
+
+            if (!isActive) {
+                content.classList.add('active');
+                btn.setAttribute('aria-expanded', 'true');
+            }
+        }
+
+        // Add Experience Field
+        function addExperience() {
+            const div = document.createElement('div');
+            div.className = 'p-4 bg-gray-50 rounded-lg border border-gray-200 relative group animate-fade-in-down';
+            div.innerHTML = `
+                <button type="button" onclick="this.parentElement.remove(); updatePreview()" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition"><i class="fas fa-trash-alt"></i></button>
+                <div class="grid gap-3">
+                    <input type="text" class="exp-title w-full px-3 py-2 bg-white border border-gray-200 rounded-md text-sm focus:border-indigo-500 outline-none" placeholder="Job Title" oninput="updatePreview()">
+                    <input type="text" class="exp-company w-full px-3 py-2 bg-white border border-gray-200 rounded-md text-sm focus:border-indigo-500 outline-none" placeholder="Company" oninput="updatePreview()">
+                    <input type="text" class="exp-date w-full px-3 py-2 bg-white border border-gray-200 rounded-md text-sm focus:border-indigo-500 outline-none" placeholder="Date (e.g. 2020 - Present)" oninput="updatePreview()">
+                    <textarea class="exp-desc w-full px-3 py-2 bg-white border border-gray-200 rounded-md text-sm focus:border-indigo-500 outline-none resize-none" rows="3" placeholder="Description..." oninput="updatePreview()"></textarea>
+                </div>
+            `;
+            document.getElementById('experienceList').appendChild(div);
+        }
+
+        // Add Education Field
+        function addEducation() {
+            const div = document.createElement('div');
+            div.className = 'p-4 bg-gray-50 rounded-lg border border-gray-200 relative group animate-fade-in-down';
+            div.innerHTML = `
+                <button type="button" onclick="this.parentElement.remove(); updatePreview()" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition"><i class="fas fa-trash-alt"></i></button>
+                <div class="grid gap-3">
+                    <input type="text" class="edu-degree w-full px-3 py-2 bg-white border border-gray-200 rounded-md text-sm focus:border-indigo-500 outline-none" placeholder="Degree" oninput="updatePreview()">
+                    <input type="text" class="edu-school w-full px-3 py-2 bg-white border border-gray-200 rounded-md text-sm focus:border-indigo-500 outline-none" placeholder="School/University" oninput="updatePreview()">
+                    <input type="text" class="edu-year w-full px-3 py-2 bg-white border border-gray-200 rounded-md text-sm focus:border-indigo-500 outline-none" placeholder="Year" oninput="updatePreview()">
+                </div>
+            `;
+            document.getElementById('educationList').appendChild(div);
+        }
+
+        // Add Skill Field
+        function addSkill() {
+            const div = document.createElement('div');
+            div.className = 'p-4 bg-gray-50 rounded-lg border border-gray-200 relative group animate-fade-in-down';
+            div.innerHTML = `
+                <button type="button" onclick="this.parentElement.remove(); updatePreview()" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition"><i class="fas fa-trash-alt"></i></button>
+                <div class="grid gap-3">
+                    <input type="text" class="skill-name-input w-full px-3 py-2 bg-white border border-gray-200 rounded-md text-sm focus:border-indigo-500 outline-none" placeholder="Skill Name (e.g. Photoshop)" oninput="updatePreview()">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs text-gray-500 w-12">Level</span>
+                        <input type="range" class="skill-level-input w-full" min="0" max="100" value="80" oninput="updatePreview()">
+                    </div>
+                </div>
+            `;
+            document.getElementById('skillsList').appendChild(div);
+        }
+
+        // Update Photo
+        function updatePhoto() {
+            const input = document.getElementById('photoInput');
+            const preview = document.getElementById('prev-photo');
+            const placeholder = document.getElementById('photo-placeholder');
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                    placeholder.classList.add('hidden');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Update Preview
+        function updatePreview() {
+            const form = document.getElementById('resumeForm');
+            
+            // Basic Info
+            document.getElementById('prev-name').innerText = form.name.value || 'MICHEL WILSON';
+            document.getElementById('prev-jobTitle').innerText = form.jobTitle.value || 'GRAPHIC & WEB DESIGNER';
+            document.getElementById('prev-address').innerText = form.address.value || 'New York, USA';
+            document.getElementById('prev-phone').innerText = form.phone.value || '+1 234 567 890';
+            document.getElementById('prev-email').innerText = form.email.value || 'info@example.com';
+            document.getElementById('prev-objective').innerText = form.objective.value || 'Graphic designer with 5+ years of experience...';
+
+            // Experience
+            const expContainer = document.getElementById('prev-experience');
+            expContainer.innerHTML = '';
+            document.querySelectorAll('#experienceList > div').forEach(item => {
+                const title = item.querySelector('.exp-title').value;
+                const company = item.querySelector('.exp-company').value;
+                const date = item.querySelector('.exp-date').value;
+                const desc = item.querySelector('.exp-desc').value;
+                
+                if (title || company) {
+                    expContainer.innerHTML += `
+                        <div class="experience-item">
+                            <div class="item-title">${title} AT ${company}</div>
+                            <p class="item-desc">${desc}</p>
+                        </div>
+                    `;
+                }
+            });
+
+            // Education
+            const eduContainer = document.getElementById('prev-education');
+            eduContainer.innerHTML = '';
+            document.querySelectorAll('#educationList > div').forEach(item => {
+                const degree = item.querySelector('.edu-degree').value;
+                const school = item.querySelector('.edu-school').value;
+                const year = item.querySelector('.edu-year').value;
+                
+                if (degree || school) {
+                    eduContainer.innerHTML += `
+                        <div class="education-item">
+                            <div class="item-title">${degree}</div>
+                            <div class="item-subtitle">${year}</div>
+                            <p class="item-desc">${school}</p>
+                        </div>
+                    `;
+                }
+            });
+
+            // Skills
+            const skillsContainer = document.getElementById('prev-skills');
+            skillsContainer.innerHTML = '';
+            document.querySelectorAll('#skillsList > div').forEach(item => {
+                const name = item.querySelector('.skill-name-input').value;
+                const level = item.querySelector('.skill-level-input').value;
+                
+                if (name) {
+                    skillsContainer.innerHTML += `
+                        <div class="skill-item">
+                            <div class="skill-name">${name}</div>
+                            <div class="skill-bar-bg">
+                                <div class="skill-bar-fill" style="width: ${level}%"></div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        // Download PDF
+        function downloadPDF() {
+            const element = document.getElementById('resumePreview');
+            const opt = {
+                margin: 0,
+                filename: 'modern_resume.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(element).save().then(() => {
+                setTimeout(() => {
+                    window.location.href = 'thanks.html';
+                }, 1000);
+            });
+        }
+
+        // Download Word
+        async function downloadWord() {
+            const btn = document.querySelector('button[onclick="downloadWord()"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            btn.disabled = true;
+
+            const formData = {
+                name: document.querySelector('[name="name"]').value,
+                jobTitle: document.querySelector('[name="jobTitle"]').value,
+                email: document.querySelector('[name="email"]').value,
+                phone: document.querySelector('[name="phone"]').value,
+                address: document.querySelector('[name="address"]').value,
+                objective: document.querySelector('[name="objective"]').value,
+                photo: document.getElementById('prev-photo').src,
+                experience: [],
+                education: [],
+                skills: []
+            };
+
+            if (document.getElementById('prev-photo').classList.contains('hidden')) {
+                formData.photo = '';
+            }
+
+            document.querySelectorAll('#experienceList > div').forEach(item => {
+                formData.experience.push({
+                    title: item.querySelector('.exp-title').value,
+                    company: item.querySelector('.exp-company').value,
+                    date: item.querySelector('.exp-date').value,
+                    description: item.querySelector('.exp-desc').value
+                });
+            });
+
+            document.querySelectorAll('#educationList > div').forEach(item => {
+                formData.education.push({
+                    degree: item.querySelector('.edu-degree').value,
+                    school: item.querySelector('.edu-school').value,
+                    year: item.querySelector('.edu-year').value
+                });
+            });
+
+            document.querySelectorAll('#skillsList > div').forEach(item => {
+                formData.skills.push({
+                    name: item.querySelector('.skill-name-input').value,
+                    level: item.querySelector('.skill-level-input').value
+                });
+            });
+
+            try {
+                const response = await fetch('http://localhost:3000/api/generate-modern-resume', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'modern_resume.docx';
+                    document.body.appendChild(a);
+                    a.click();
+                    setTimeout(() => {
+                        window.location.href = 'thanks.html';
+                    }, 1000);
+                } else {
+                    const errorText = await response.text();
+                    alert(`Error generating Word document: ${errorText}`);
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`Failed to connect to server: ${error.message}`);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // Init
+        addExperience();
+        addEducation();
+        addSkill();
+    </script>
+</body>
+</html>

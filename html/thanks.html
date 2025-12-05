@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Removed auto-redirect to let user enjoy the animation -->
+    <title>Thank You - ReCeGen</title>
+    <link href="../css/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <style>
+        body { 
+            margin: 0; 
+            overflow: hidden; 
+            background-color: #050510; 
+            font-family: 'Outfit', sans-serif; 
+        }
+        #canvas-container { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: 1; 
+        }
+        .content { 
+            position: relative; 
+            z-index: 10; 
+            pointer-events: none; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center; 
+            color: white; 
+        }
+        .content * { 
+            pointer-events: auto; 
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 50px rgba(99, 102, 241, 0.1);
+            max-width: 600px;
+            width: 90%;
+            animation: fadeUp 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 14px 32px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 20px;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.2), inset 0 0 20px rgba(99, 102, 241, 0.1);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+        }
+        /* ... (keep existing btn::before and hover styles) ... */
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        .btn:hover::before {
+            left: 100%;
+        }
+        .btn:hover { 
+            transform: translateY(-3px) scale(1.02); 
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.4), 0 0 60px rgba(168, 85, 247, 0.2), inset 0 0 20px rgba(99, 102, 241, 0.2);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        .btn-pink {
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.2), inset 0 0 20px rgba(236, 72, 153, 0.1);
+        }
+        .btn-pink:hover {
+            box-shadow: 0 0 30px rgba(236, 72, 153, 0.4), 0 0 60px rgba(244, 63, 94, 0.2), inset 0 0 20px rgba(236, 72, 153, 0.2);
+        }
+        .home-link {
+            margin-top: 15px;
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        .home-link:hover {
+            color: white;
+        }
+        .star-rating {
+            display: flex;
+            gap: 0.8rem;
+            margin: 1rem 0;
+            perspective: 1000px;
+        }
+        .star {
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+        /* ... (keep existing star hover/active styles) ... */
+        .star:hover {
+            transform: rotateY(180deg) scale(1.2);
+            color: #fbbf24;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+        }
+        .star.active {
+            color: #fbbf24;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+            animation: starPulse 2s infinite;
+        }
+        @keyframes starPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .rating-text {
+            height: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #fbbf24;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+
+    <div class="content">
+        <div class="glass-panel">
+            <div class="mb-4 inline-block p-3 rounded-full bg-green-500/10 text-green-400 border border-green-500/20">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 tracking-tight">
+                Download Started
+            </h1>
+            <p class="text-lg text-gray-300 mb-2 leading-relaxed font-light">
+                The universe is aligning for your success. <br>
+                Your professional journey begins now.
+            </p>
+
+            <!-- 3D Star Rating -->
+            <div class="flex flex-col items-center">
+                <p class="text-xs text-gray-400 uppercase tracking-widest mb-1">Rate your experience</p>
+                <div class="star-rating" id="starRating">
+                    <div class="star" data-rating="1">★</div>
+                    <div class="star" data-rating="2">★</div>
+                    <div class="star" data-rating="3">★</div>
+                    <div class="star" data-rating="4">★</div>
+                    <div class="star" data-rating="5">★</div>
+                </div>
+                <div class="rating-text" id="ratingText">Thank you for rating!</div>
+            </div>
+
+            <div class="flex flex-col items-center mt-6">
+                 <div class="flex flex-col sm:flex-row gap-6">
+                     <a href="resume_builder.html" class="btn">
+                        <span>Create Another Resume</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                     </a>
+                     <a href="cv_builder.html" class="btn btn-pink">
+                        <span>Create Another CV</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                     </a>
+                 </div>
+                 <a href="../index.html" class="home-link">Return to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Snake Cursor Animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const colors = ["#6366f1", "#818cf8", "#c084fc", "#e879f9", "#22d3ee"];
+            const segments = [];
+            const numSegments = 20;
+            
+            // Create segments
+            for (let i = 0; i < numSegments; i++) {
+                const segment = document.createElement('div');
+                segment.style.position = 'fixed';
+                segment.style.top = '0';
+                segment.style.left = '0';
+                segment.style.width = `${20 - i * 0.8}px`; // Decrease size
+                segment.style.height = `${20 - i * 0.8}px`;
+                segment.style.borderRadius = '50%';
+                segment.style.backgroundColor = colors[i % colors.length];
+                segment.style.pointerEvents = 'none';
+                segment.style.zIndex = '9999';
+                segment.style.opacity = `${1 - i / numSegments}`; // Fade out tail
+                segment.style.transform = 'translate(-50%, -50%)'; // Center pivot
+                document.body.appendChild(segment);
+                
+                segments.push({
+                    element: segment,
+                    x: 0,
+                    y: 0
+                });
+            }
+
+            let mouseX = window.innerWidth / 2;
+            let mouseY = window.innerHeight / 2;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            function animateCursor() {
+                let x = mouseX;
+                let y = mouseY;
+
+                segments.forEach((segment, index) => {
+                    // Smooth follow logic
+                    segment.x += (x - segment.x) * 0.2;
+                    segment.y += (y - segment.y) * 0.2;
+                    
+                    segment.element.style.left = `${segment.x}px`;
+                    segment.element.style.top = `${segment.y}px`;
+                    
+                    x = segment.x;
+                    y = segment.y;
+                });
+
+                requestAnimationFrame(animateCursor);
+            }
+
+            animateCursor();
+        });
+
+        // Star Rating Logic
+        const ratingStars = document.querySelectorAll('.star');
+        const ratingText = document.getElementById('ratingText');
+        let currentRating = 0;
+
+        ratingStars.forEach(star => {
+            star.addEventListener('mouseover', () => {
+                const rating = star.dataset.rating;
+                highlightStars(rating);
+            });
+
+            star.addEventListener('mouseout', () => {
+                highlightStars(currentRating);
+            });
+
+            star.addEventListener('click', () => {
+                currentRating = star.dataset.rating;
+                highlightStars(currentRating);
+                ratingText.style.opacity = '1';
+                // Optional: Send rating to server here
+            });
+        });
+
+        function highlightStars(rating) {
+            ratingStars.forEach(star => {
+                if (star.dataset.rating <= rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        // Three.js "Flower of the Universe" Effect
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        // Fog for depth
+        scene.fog = new THREE.FogExp2(0x050510, 0.02);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        camera.position.z = 25;
+
+        // Create the Flower/Planet Geometry
+        const geometry = new THREE.BufferGeometry();
+        const count = 5000;
+        const positions = new Float32Array(count * 3);
+        const colors = new Float32Array(count * 3);
+        
+        const colorPalette = [
+            new THREE.Color('#818cf8'), // Indigo
+            new THREE.Color('#c084fc'), // Purple
+            new THREE.Color('#f472b6'), // Pink
+            new THREE.Color('#22d3ee'), // Cyan
+            new THREE.Color('#fbbf24')  // Amber
+        ];
+
+        for(let i = 0; i < count; i++) {
+            // Fibonacci Sphere distribution for even spread
+            const phi = Math.acos(-1 + (2 * i) / count);
+            const theta = Math.sqrt(count * Math.PI) * phi;
+
+            // Base radius
+            let r = 12;
+            
+            // "Flower" modulation: Modify radius based on angles to create petals/waves
+            // This creates the "Flower of the Universe" shape
+            const petalFreq = 6;
+            const wave = Math.sin(phi * 10) * Math.cos(theta * petalFreq);
+            r += wave * 2; 
+
+            // Add some noise/atmosphere
+            r += (Math.random() - 0.5) * 0.5;
+
+            positions[i * 3] = r * Math.cos(theta) * Math.sin(phi);
+            positions[i * 3 + 1] = r * Math.sin(theta) * Math.sin(phi);
+            positions[i * 3 + 2] = r * Math.cos(phi);
+
+            // Colors
+            const color = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+            colors[i * 3] = color.r;
+            colors[i * 3 + 1] = color.g;
+            colors[i * 3 + 2] = color.b;
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        // Material
+        const material = new THREE.PointsMaterial({
+            size: 0.15,
+            vertexColors: true,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false,
+            transparent: true,
+            opacity: 0.8
+        });
+
+        const particles = new THREE.Points(geometry, material);
+        scene.add(particles);
+
+        // Add a glowing core
+        const coreGeometry = new THREE.SphereGeometry(5, 32, 32);
+        const coreMaterial = new THREE.MeshBasicMaterial({
+            color: 0x6366f1,
+            transparent: true,
+            opacity: 0.1,
+            blending: THREE.AdditiveBlending
+        });
+        const core = new THREE.Mesh(coreGeometry, coreMaterial);
+        scene.add(core);
+
+        // Starfield background
+        const starsGeometry = new THREE.BufferGeometry();
+        const starsCount = 1000;
+        const starsPos = new Float32Array(starsCount * 3);
+        for(let i=0; i<starsCount*3; i++) {
+            starsPos[i] = (Math.random() - 0.5) * 100;
+        }
+        starsGeometry.setAttribute('position', new THREE.BufferAttribute(starsPos, 3));
+        const starsMaterial = new THREE.PointsMaterial({
+            color: 0xffffff,
+            size: 0.1,
+            transparent: true,
+            opacity: 0.5
+        });
+        const stars = new THREE.Points(starsGeometry, starsMaterial);
+        scene.add(stars);
+
+
+        // Interaction
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX - windowHalfX) * 0.001;
+            mouseY = (event.clientY - windowHalfY) * 0.001;
+        });
+
+        // Animation Loop
+        let time = 0;
+        function animate() {
+            requestAnimationFrame(animate);
+            time += 0.002;
+
+            targetX = mouseX * 0.5;
+            targetY = mouseY * 0.5;
+
+            // Smooth rotation
+            particles.rotation.y += 0.002 + (targetX - particles.rotation.y) * 0.05;
+            particles.rotation.x += 0.001 + (targetY - particles.rotation.x) * 0.05;
+            
+            // Core pulses
+            core.scale.setScalar(1 + Math.sin(time * 3) * 0.1);
+            
+            // Particles "breathe"
+            // We can't easily modify buffer geometry positions every frame without performance cost
+            // So we scale the whole object slightly
+            particles.scale.setScalar(1 + Math.sin(time * 2) * 0.02);
+
+            // Stars rotate slowly
+            stars.rotation.y -= 0.0005;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Handle Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

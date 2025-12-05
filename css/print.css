@@ -1,0 +1,74 @@
+/* Global Print Styles */
+@media print {
+    @page {
+        margin: 0;
+        size: A4;
+    }
+
+    body {
+        background: white;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    /* Hide non-printable elements */
+    .editor-panel,
+    .editor-header,
+    .theme-toggle,
+    .settings-btn,
+    button,
+    .no-print {
+        display: none !important;
+    }
+
+    /* Layout adjustments for print */
+    .app-container {
+        display: block !important;
+        height: auto !important;
+        width: 100% !important;
+        max-width: none !important;
+        box-shadow: none !important;
+        background: white !important;
+        overflow: visible !important;
+    }
+
+    .preview-panel {
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;
+        background: white !important;
+        display: block !important;
+        height: auto !important;
+    }
+
+    /* Resume Preview Specifics */
+    #resume-preview,
+    #cv-preview {
+        width: 210mm !important;
+        min-height: 297mm !important;
+        height: auto !important;
+        box-shadow: none !important;
+        margin: 0 auto !important;
+        page-break-after: always;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    /* Ensure background colors print */
+    .bg-primary {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    /* CV Specific Column Colors */
+    .cv-left-col {
+        background-color: var(--primary-color) !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .cv-right-col {
+        background-color: #ffffff !important;
+    }
+}

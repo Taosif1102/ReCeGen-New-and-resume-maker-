@@ -1,0 +1,11 @@
+{
+    "name": "Test User",
+    "title": "Developer",
+    "email": "test@example.com",
+    "phone": "1234567890",
+    "address": "Test Address",
+    "objective": "Test Objective",
+    "skills": "Python, JavaScript",
+    "experience": [],
+    "education": []
+}

@@ -1,0 +1,162 @@
+/* Start Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.resume-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+/* End Global Styles */
+
+/* Start Header Styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid #333;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.header-left {
+    flex: 1;
+}
+
+h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    letter-spacing: 2px;
+}
+
+h2 {
+    font-size: 24px;
+    margin: 0 0 15px 0;
+    color: var(--resume-accent);
+}
+
+.contact-info p {
+    margin: 2px 0;
+    font-size: 14px;
+}
+
+.header-right {
+    margin-left: 20px;
+}
+
+.photo-box {
+    width: 120px;
+    height: 140px;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eee;
+    overflow: hidden;
+}
+
+.photo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/* End Header Styles */
+
+/* Start Section Styles */
+section {
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    background-color: var(--resume-accent);
+    color: white;
+    padding: 5px 10px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    margin-bottom: 5px;
+    padding-left: 15px;
+    position: relative;
+}
+
+li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+}
+/* End Section Styles */
+
+/* Start Academic Details Styles */
+.academic-details li {
+    margin-bottom: 15px;
+}
+
+.academic-details strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 5px;
+    font-size: 14px;
+}
+/* End Academic Details Styles */
+
+/* Start Personal Details Styles */
+.personal-details .details-grid {
+    grid-template-columns: 180px 1fr;
+}
+/* End Personal Details Styles */
+
+/* Start Signature Section Styles */
+.signature-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+}
+
+.signature {
+    text-align: center;
+    border-top: 1px solid #333;
+    padding-top: 5px;
+    width: 200px;
+}
+/* End Signature Section Styles */
+
+/* Start Print Styles */
+@media print {
+    body {
+        background-color: #fff;
+        padding: 0;
+    }
+    .resume-container {
+        box-shadow: none;
+        padding: 0;
+        width: 100%;
+        max-width: none;
+    }
+}
+/* End Print Styles */

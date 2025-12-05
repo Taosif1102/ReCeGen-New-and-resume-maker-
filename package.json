@@ -1,0 +1,29 @@
+{
+  "name": "resume-generator",
+  "version": "1.0.0",
+  "description": "A comprehensive and interactive Resume Builder application designed to help users create professional resumes with ease. This project features a robust web-based real-time builder and a Python automation script for generating Word document resumes.",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "tailwindcss-animated": "^2.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.22",
+    "nodemon": "^3.0.3",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.18"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "build": "tailwindcss -i ./src/input.css -o ./css/output.css",
+    "watch": "tailwindcss -i ./src/input.css -o ./css/output.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

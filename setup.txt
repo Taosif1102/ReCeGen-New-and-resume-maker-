@@ -1,0 +1,53 @@
+# Project Setup Guide
+
+## 1. Node.js & Tailwind CSS Setup (Frontend)
+
+This project uses Node.js and Tailwind CSS for styling and animations.
+
+### Prerequisites
+- Node.js installed on your system.
+
+### Installation
+1. Open a terminal in the project root directory.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+### Development
+- To watch for CSS changes and rebuild automatically:
+  ```bash
+  npm run watch
+  ```
+
+### Build
+- To build the CSS for production:
+  ```bash
+  npm run build
+  ```
+
+---
+
+## 2. Python Setup (Backend/Scripting)
+
+The Python scripts are used for generating DOCX files.
+
+### Prerequisites
+- Python 3.x installed on your system.
+
+### Installation
+1. Open a terminal in the project root directory.
+2. Install the required Python packages:
+   ```bash
+   pip install -r txt/requirements.txt
+   ```
+
+### Usage
+- To generate a Resume:
+  ```bash
+  python python/resume_builder.py
+  ```
+- To generate a CV:
+  ```bash
+  python python/generate_cv.py
+  ```

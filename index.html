@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume & CV Generator</title>
+    <link href="./css/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .rainbow-text {
+            background-image: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% auto;
+            animation: rainbow 3s linear infinite;
+        }
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white leading-relaxed selection:bg-indigo-500 selection:text-white overflow-x-hidden">
+
+    <!-- 3D Background Container (Fixed) -->
+    <div id="canvas-container" class="fixed top-0 left-0 w-full h-full z-0 pointer-events-none"></div>
+
+    <!-- Navbar -->
+    <nav class="w-full py-6 px-8 flex justify-between items-center absolute top-0 left-0 z-[100]">
+        <div class="text-2xl font-bold text-white tracking-wide">
+            <i class="fas fa-layer-group mr-2"></i><span class="rainbow-text">ReCeGen</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <!-- Rainbow Nav Container -->
+            <div class="items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-transform duration-200 ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group relative animate-rainbow border-0 bg-[linear-gradient(#1e293b,#1e293b),linear-gradient(#1e293b_50%,rgba(30,41,59,0.6)_80%,rgba(0,0,0,0)),linear-gradient(90deg,hsl(0,100%,63%),hsl(90,100%,63%),hsl(210,100%,63%),hsl(195,100%,63%),hsl(270,100%,63%))] bg-[length:200%] text-white [background-clip:padding-box,border-box,border-box] [background-origin:border-box] [border:calc(0.08*1rem)_solid_transparent] h-10 px-2 inline-flex gap-1">
+                <a href="#" class="px-3 py-1 bg-white/20 hover:bg-white/30 font-semibold rounded-md transition-colors">Home</a>
+                <a href="html/templates.html" class="px-3 py-1 hover:bg-white/10 rounded-md transition-colors">Templates</a>
+                <a href="html/about.html" class="px-3 py-1 hover:bg-white/10 rounded-md transition-colors">About</a>
+            </div>
+            <a href="html/templates.html" class="bg-white text-indigo-600 px-6 py-2 rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transition transform">
+                Get Started
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
+        
+        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+            <div class="inline-block px-4 py-1 mb-6 rounded-full bg-white/20 text-white text-sm font-semibold backdrop-blur-sm animate-fade-down">
+                ✨ Create Professional Resumes in Minutes
+            </div>
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-8 leading-tight animate-fade-up">
+                Build Your Future <br>
+                <span class="rainbow-text font-extrabold">With Confidence</span>
+            </h1>
+            <p class="text-lg md:text-xl text-white/80 mb-10 max-w-2xl mx-auto animate-fade-up" style="animation-delay: 0.2s;">
+                Stand out from the crowd with our AI-powered Resume and CV builder. 
+                Choose from professionally designed templates and download in PDF or Word format.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up" style="animation-delay: 0.4s;">
+                <a href="html/resume_builder.html" class="px-8 py-4 bg-white text-indigo-600 rounded-xl font-bold text-lg shadow-2xl hover:shadow-white/50 hover:-translate-y-1 transition-all flex items-center justify-center gap-2">
+                    <i class="fas fa-file-alt"></i> Build Resume
+                </a>
+                <a href="html/cv_builder.html" class="px-8 py-4 bg-indigo-900/50 text-white border border-white/30 rounded-xl font-bold text-lg backdrop-blur-md hover:bg-indigo-900/70 hover:-translate-y-1 transition-all flex items-center justify-center gap-2">
+                    <i class="fas fa-id-card"></i> Build CV
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="py-24 px-6 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Why Choose ResuGen?</h2>
+                <p class="text-slate-300 max-w-2xl mx-auto">Everything you need to create a job-winning application.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-10">
+                <!-- Feature 1 -->
+                <div class="p-8 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-indigo-500/50 hover:bg-white/10 transition-all duration-300 group" data-tilt data-tilt-glare data-tilt-max-glare="0.2">
+                    <div class="w-14 h-14 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform" style="transform: translateZ(20px)">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white" style="transform: translateZ(20px)">Smart Automation</h3>
+                    <p class="text-slate-300 leading-relaxed" style="transform: translateZ(20px)">
+                        Our Python-powered backend ensures perfect formatting for Word documents every time.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="p-8 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-purple-500/50 hover:bg-white/10 transition-all duration-300 group" data-tilt data-tilt-glare data-tilt-max-glare="0.2">
+                    <div class="w-14 h-14 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform" style="transform: translateZ(20px)">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white" style="transform: translateZ(20px)">Live Preview</h3>
+                    <p class="text-slate-300 leading-relaxed" style="transform: translateZ(20px)">
+                        See your changes in real-time as you type. No more guessing how it will look.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="p-8 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-pink-500/50 hover:bg-white/10 transition-all duration-300 group" data-tilt data-tilt-glare data-tilt-max-glare="0.2">
+                    <div class="w-14 h-14 rounded-xl bg-pink-500/20 text-pink-400 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform" style="transform: translateZ(20px)">
+                        <i class="fas fa-file-export"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white" style="transform: translateZ(20px)">Multi-Format Export</h3>
+                    <p class="text-slate-300 leading-relaxed" style="transform: translateZ(20px)">
+                        Download as a high-quality PDF for emailing or an editable Word doc for tweaking.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900/80 backdrop-blur-md text-white py-12 relative z-10 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="text-2xl font-bold mb-6 tracking-wide">ResuGen</div>
+            <p class="text-slate-400 mb-8">Empowering careers, one resume at a time.</p>
+            <div class="flex justify-center gap-6 mb-8">
+                <a href="#" class="text-slate-400 hover:text-white transition"><i class="fab fa-twitter text-xl"></i></a>
+                <a href="#" class="text-slate-400 hover:text-white transition"><i class="fab fa-github text-xl"></i></a>
+                <a href="#" class="text-slate-400 hover:text-white transition"><i class="fab fa-linkedin text-xl"></i></a>
+            </div>
+            <div class="text-sm text-slate-500">
+                &copy; 2025 ReCeGen. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Snake Cursor Animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const colors = ["#6366f1", "#818cf8", "#c084fc", "#e879f9", "#22d3ee"];
+            const segments = [];
+            const numSegments = 20;
+            
+            // Create segments
+            for (let i = 0; i < numSegments; i++) {
+                const segment = document.createElement('div');
+                segment.style.position = 'fixed';
+                segment.style.top = '0';
+                segment.style.left = '0';
+                segment.style.width = `${20 - i * 0.8}px`; // Decrease size
+                segment.style.height = `${20 - i * 0.8}px`;
+                segment.style.borderRadius = '50%';
+                segment.style.backgroundColor = colors[i % colors.length];
+                segment.style.pointerEvents = 'none';
+                segment.style.zIndex = '9999';
+                segment.style.opacity = `${1 - i / numSegments}`; // Fade out tail
+                segment.style.transform = 'translate(-50%, -50%)'; // Center pivot
+                document.body.appendChild(segment);
+                
+                segments.push({
+                    element: segment,
+                    x: 0,
+                    y: 0
+                });
+            }
+
+            let mouseX = window.innerWidth / 2;
+            let mouseY = window.innerHeight / 2;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            function animate() {
+                let x = mouseX;
+                let y = mouseY;
+
+                segments.forEach((segment, index) => {
+                    const nextSegment = segments[index + 1] || segments[0];
+                    
+                    // Smooth follow logic
+                    segment.x += (x - segment.x) * 0.2;
+                    segment.y += (y - segment.y) * 0.2;
+                    
+                    segment.element.style.left = `${segment.x}px`;
+                    segment.element.style.top = `${segment.y}px`;
+                    
+                    // The next segment follows the current one's previous position effectively
+                    // But for a snake effect, we want them to follow each other
+                    // So we update the target for the next iteration to be the current segment's position
+                    x = segment.x;
+                    y = segment.y;
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        });
+
+        // Three.js 3D Particle Network
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('canvas-container');
+            
+            // Scene setup
+            const scene = new THREE.Scene();
+            // Fog for depth
+            scene.fog = new THREE.FogExp2(0x0f172a, 0.002);
+
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 30;
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            // Particles
+            const particleCount = 200; // Number of particles
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            const velocities = [];
+
+            for (let i = 0; i < particleCount; i++) {
+                positions[i * 3] = (Math.random() - 0.5) * 100; // x
+                positions[i * 3 + 1] = (Math.random() - 0.5) * 100; // y
+                positions[i * 3 + 2] = (Math.random() - 0.5) * 100; // z
+                
+                velocities.push({
+                    x: (Math.random() - 0.5) * 0.05,
+                    y: (Math.random() - 0.5) * 0.05,
+                    z: (Math.random() - 0.5) * 0.05
+                });
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+            // Material for dots
+            const material = new THREE.PointsMaterial({
+                color: 0x818cf8, // Indigo-400
+                size: 0.5,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            const particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            // Lines connecting particles
+            const lineMaterial = new THREE.LineBasicMaterial({
+                color: 0x6366f1, // Indigo-500
+                transparent: true,
+                opacity: 0.15
+            });
+
+            const linesGeometry = new THREE.BufferGeometry();
+            const lines = new THREE.LineSegments(linesGeometry, lineMaterial);
+            scene.add(lines);
+
+            // Mouse interaction
+            let mouseX = 0;
+            let mouseY = 0;
+            let targetX = 0;
+            let targetY = 0;
+
+            const windowHalfX = window.innerWidth / 2;
+            const windowHalfY = window.innerHeight / 2;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX - windowHalfX) * 0.05;
+                mouseY = (event.clientY - windowHalfY) * 0.05;
+            });
+
+            // Animation Loop
+            const animate = () => {
+                requestAnimationFrame(animate);
+
+                targetX = mouseX * 0.001;
+                targetY = mouseY * 0.001;
+
+                // Rotate entire system slightly based on mouse
+                particles.rotation.y += 0.001 + (targetX - particles.rotation.y) * 0.05;
+                particles.rotation.x += 0.001 + (targetY - particles.rotation.x) * 0.05;
+                lines.rotation.y = particles.rotation.y;
+                lines.rotation.x = particles.rotation.x;
+
+                // Update particle positions
+                const positions = particles.geometry.attributes.position.array;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    // Move particles
+                    positions[i * 3] += velocities[i].x;
+                    positions[i * 3 + 1] += velocities[i].y;
+                    positions[i * 3 + 2] += velocities[i].z;
+
+                    // Boundary check (bounce back)
+                    if (positions[i * 3] < -50 || positions[i * 3] > 50) velocities[i].x = -velocities[i].x;
+                    if (positions[i * 3 + 1] < -50 || positions[i * 3 + 1] > 50) velocities[i].y = -velocities[i].y;
+                    if (positions[i * 3 + 2] < -50 || positions[i * 3 + 2] > 50) velocities[i].z = -velocities[i].z;
+                }
+                particles.geometry.attributes.position.needsUpdate = true;
+
+                // Update lines (connect close particles)
+                updateLines();
+
+                renderer.render(scene, camera);
+            };
+
+            const updateLines = () => {
+                const positions = particles.geometry.attributes.position.array;
+                const linePositions = [];
+                
+                // Brute force distance check (optimized for small particle count)
+                // Connect particles if distance < 15
+                const connectDistance = 15;
+
+                for (let i = 0; i < particleCount; i++) {
+                    for (let j = i + 1; j < particleCount; j++) {
+                        const dx = positions[i * 3] - positions[j * 3];
+                        const dy = positions[i * 3 + 1] - positions[j * 3 + 1];
+                        const dz = positions[i * 3 + 2] - positions[j * 3 + 2];
+                        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+                        if (dist < connectDistance) {
+                            linePositions.push(
+                                positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2],
+                                positions[j * 3], positions[j * 3 + 1], positions[j * 3 + 2]
+                            );
+                        }
+                    }
+                }
+
+                lines.geometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+            };
+
+            // Handle Resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            animate();
+        });
+    </script>
+</body>
+</html>

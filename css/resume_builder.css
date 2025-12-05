@@ -1,0 +1,97 @@
+/* Start Imports */
+@import url('style.css');
+/* End Imports */
+
+/* Start Body Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    /* height: 100vh; Removed to allow scrolling on mobile, handled by Tailwind lg:h-screen */
+    /* overflow: hidden; Removed to allow scrolling on mobile, handled by Tailwind lg:overflow-hidden */
+}
+/* End Body Styles */
+
+/* Start App Container */
+.app-container {
+    display: flex;
+    /* height: 100vh; Removed, handled by Tailwind */
+    background-color: var(--bg-color);
+}
+/* End App Container */
+
+/* Editor Panel styles removed - handled by Tailwind CSS */
+
+/* Start Preview Panel */
+.preview-panel {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    animation: fadeIn 1.2s ease-out;
+}
+/* End Preview Panel */
+
+/* Start Resume Container Override */
+.resume-container {
+    transform-origin: top center;
+    /* Scale down slightly if needed on smaller screens, but for now let it scroll */
+    margin-bottom: 40px;
+    color: #333; /* Ensure resume text is always black/dark gray */
+}
+/* End Resume Container Override */
+
+/* Start Print Styles */
+.photo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@page {
+    margin: 0;
+}
+
+@media print {
+    body {
+        height: auto;
+        overflow: visible;
+        background-color: white;
+        margin: 1cm;
+    }
+
+    .app-container {
+        display: block;
+        height: auto;
+    }
+
+    .editor-panel {
+        display: none;
+    }
+
+    .preview-panel {
+        padding: 0;
+        overflow: visible;
+        display: block;
+    }
+
+    .resume-container {
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: none;
+    }
+}
+/* End Print Styles */
+
+/* Start Animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+/* End Animation */

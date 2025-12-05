@@ -1,0 +1,24 @@
+{
+    "name": "Test User",
+    "title": "Test Title",
+    "email": "test@example.com",
+    "phone": "1234567890",
+    "address": "Test Address",
+    "objective": "Test Objective",
+    "skills": "Skill 1, Skill 2",
+    "experience": [
+        {
+            "title": "Job 1",
+            "company": "Company 1",
+            "date": "2020-2021",
+            "description": "Description 1"
+        }
+    ],
+    "education": [
+        {
+            "degree": "Degree 1",
+            "school": "School 1",
+            "year": "2020"
+        }
+    ]
+}

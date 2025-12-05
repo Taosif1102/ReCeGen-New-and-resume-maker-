@@ -1,0 +1,275 @@
+/* Start Global Styles */
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+/* End Global Styles */
+
+/* Start App Container */
+.app-container {
+  display: flex;
+  width: 100%;
+  max-width: 1400px;
+  /* height: 100vh; Removed, handled by Tailwind */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  background-color: var(--bg-color);
+}
+/* End App Container */
+
+/* Editor Panel styles removed - handled by Tailwind CSS */
+
+/* Start Preview Panel */
+.preview-panel {
+  width: 60%;
+  background: #525659; /* Keep dark background for contrast with paper */
+  padding: 40px;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  animation: fadeIn 1.2s ease-out;
+}
+
+.cv-preview {
+  width: 210mm;
+  min-height: 297mm;
+  background: white; /* Paper is always white */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  color: #333; /* CV content text color usually fixed for print */
+}
+/* End Preview Panel */
+
+/* Start CV Layout */
+.cv-left-col {
+  width: 35%;
+  background-color: var(--resume-accent);
+  color: white;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.cv-right-col {
+  width: 65%;
+  background-color: #ffffff;
+  padding: 40px 30px;
+  color: #333;
+}
+/* End CV Layout */
+
+/* Start Left Column Styles */
+.profile-photo-container {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 20px;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #4a5568;
+}
+
+.profile-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9em;
+}
+
+.left-section {
+  width: 100%;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.left-title {
+  font-size: 1.1em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+
+.contact-item {
+  margin-bottom: 10px;
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact-item i {
+  width: 20px;
+}
+
+.skill-list,
+.lang-list {
+  list-style: none;
+  padding: 0;
+}
+
+.skill-item,
+.lang-item {
+  margin-bottom: 8px;
+  font-size: 0.9em;
+}
+/* End Left Column Styles */
+
+/* Start Right Column Styles */
+.header-name {
+  font-size: 2.5em;
+  font-weight: 700;
+  color: var(--resume-accent);
+  margin: 0;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.header-title {
+  font-size: 1.2em;
+  color: #666;
+  margin-top: 5px;
+  margin-bottom: 30px;
+  font-weight: 400;
+}
+
+.right-section {
+  margin-bottom: 30px;
+}
+
+.right-title {
+  font-size: 1em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #333;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+
+.summary-text {
+  font-size: 0.95em;
+  line-height: 1.6;
+  color: #555;
+}
+
+.job-item,
+.edu-item {
+  margin-bottom: 20px;
+}
+
+.job-title,
+.edu-degree {
+  font-weight: 700;
+  font-size: 1em;
+  color: #333;
+}
+
+.job-company,
+.edu-school {
+  font-style: italic;
+  color: #666;
+  font-size: 0.9em;
+  margin-bottom: 5px;
+}
+
+.job-date,
+.edu-date {
+  font-size: 0.85em;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.job-desc {
+  font-size: 0.9em;
+  line-height: 1.5;
+  color: #555;
+}
+
+.job-desc ul {
+  margin: 5px 0;
+  padding-left: 20px;
+}
+/* End Right Column Styles */
+
+/* Start Print Styles */
+@media print {
+  @page {
+    margin: 0;
+    size: A4;
+  }
+
+  body {
+    background: white;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .app-container {
+    display: block;
+    height: auto;
+    width: 100%;
+    max-width: none;
+    box-shadow: none;
+    background: white;
+  }
+
+  .editor-panel,
+  .theme-container {
+    display: none !important;
+  }
+
+  .preview-panel {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    background: white;
+    display: block;
+    height: auto;
+  }
+
+  .cv-preview {
+    width: 210mm;
+    min-height: 297mm;
+    height: auto;
+    box-shadow: none;
+    margin: 0;
+    page-break-after: always;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  /* Ensure columns maintain their layout */
+  .cv-left-col {
+    background-color: var(--resume-accent) !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .cv-right-col {
+    background-color: #ffffff !important;
+  }
+}
+/* End Print Styles */
+
+/* Start Animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* End Animation */

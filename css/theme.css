@@ -1,0 +1,218 @@
+/* Start Root Variables (Light Theme) */
+:root {
+    /* Default Light Theme (Warm Light) */
+    --bg-color: #fffdf5; /* Warm light background */
+    --text-color: #4e342e;
+    --panel-bg: #fffaf0; /* Warm panel */
+    --border-color: #e6ccb2;
+    --primary-color: #a0522d;
+    --secondary-color: #cd853f;
+    --input-bg: #fffaf0; /* Replaced pure white with warm light */
+    --input-border: #e6ccb2;
+    --toggle-bg: #a0522d;
+    --toggle-icon: #fffdf5;
+    --resume-accent: #a0522d;
+}
+/* End Root Variables (Light Theme) */
+
+/* Start Dark Blue Theme */
+html.theme-dark-blue body {
+    --bg-color: #0f172a; /* Slate 900 */
+    --text-color: #e2e8f0; /* Slate 200 */
+    --panel-bg: #1e293b; /* Slate 800 */
+    --border-color: #334155; /* Slate 700 */
+    --primary-color: #38bdf8; /* Sky 400 */
+    --secondary-color: #818cf8; /* Indigo 400 */
+    --input-bg: #1e293b;
+    --input-border: #334155;
+    --toggle-bg: #38bdf8;
+    --toggle-icon: #0f172a;
+    --resume-accent: #38bdf8;
+}
+/* End Dark Blue Theme */
+
+/* Start Red Theme */
+html.theme-red body {
+    --bg-color: #fff5f5;
+    --text-color: #742a2a;
+    --panel-bg: #ffffff;
+    --border-color: #fc8181;
+    --primary-color: #c53030;
+    --secondary-color: #f56565;
+    --input-bg: #ffffff;
+    --input-border: #fc8181;
+    --toggle-bg: #c53030;
+    --toggle-icon: #fff5f5;
+    --resume-accent: #c53030;
+}
+/* End Red Theme */
+
+/* Start Orange Theme */
+html.theme-orange body {
+    --bg-color: #fffaf0;
+    --text-color: #7c2d12;
+    --panel-bg: #ffffff;
+    --border-color: #fdba74;
+    --primary-color: #ea580c;
+    --secondary-color: #f97316;
+    --input-bg: #ffffff;
+    --input-border: #fdba74;
+    --toggle-bg: #ea580c;
+    --toggle-icon: #fffaf0;
+    --resume-accent: #ea580c;
+}
+/* End Orange Theme */
+
+/* Start Green Theme */
+html.theme-green body {
+    --bg-color: #f0fff4;
+    --text-color: #22543d;
+    --panel-bg: #ffffff;
+    --border-color: #68d391;
+    --primary-color: #2f855a;
+    --secondary-color: #48bb78;
+    --input-bg: #ffffff;
+    --input-border: #68d391;
+    --toggle-bg: #2f855a;
+    --toggle-icon: #f0fff4;
+    --resume-accent: #2f855a;
+}
+/* End Green Theme */
+
+/* Start Purple Theme */
+html.theme-purple body {
+    --bg-color: #faf5ff;
+    --text-color: #44337a;
+    --panel-bg: #ffffff;
+    --border-color: #b794f4;
+    --primary-color: #805ad5;
+    --secondary-color: #9f7aea;
+    --input-bg: #ffffff;
+    --input-border: #b794f4;
+    --toggle-bg: #805ad5;
+    --toggle-icon: #faf5ff;
+    --resume-accent: #805ad5;
+}
+/* End Purple Theme */
+
+/* Start Body Transitions */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Apply transitions to all theme-dependent elements */
+.app-container, .container, .editor-panel, .preview-panel, 
+fieldset, legend, .form-group label, input, textarea, 
+.header-left, .header-right, .cv-left-col, .cv-right-col,
+.theme-toggle, .theme-toggle i, .theme-menu {
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, transform 0.5s ease;
+}
+/* End Body Transitions */
+
+/* Start Common Element Styles */
+.editor-panel {
+    background-color: var(--panel-bg);
+    border-right: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.editor-header {
+    border-bottom: 2px solid var(--border-color);
+}
+
+.editor-header h2 {
+    color: var(--text-color);
+}
+
+fieldset {
+    border: 1px solid var(--border-color);
+}
+
+legend {
+    color: var(--primary-color);
+}
+
+.form-group label {
+    color: var(--text-color);
+}
+
+.form-group input,
+.form-group textarea {
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--text-color);
+}
+/* End Common Element Styles */
+
+/* Start Theme Menu Styles */
+.theme-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 10px;
+}
+
+.theme-toggle-main {
+    width: 50px;
+    height: 50px;
+    background-color: var(--toggle-bg);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+    color: var(--toggle-icon);
+    font-size: 24px;
+}
+
+.theme-toggle-main:hover {
+    transform: scale(1.1);
+}
+
+.theme-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.theme-container.active .theme-options {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+.theme-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+}
+
+.theme-btn:hover {
+    transform: scale(1.1);
+}
+/* End Theme Menu Styles */
+
+/* Start Theme Button Colors */
+.btn-light { background-color: #fffdf5; }
+.btn-dark-blue { background-color: #0f172a; }
+.btn-red { background-color: #fff5f5; }
+.btn-orange { background-color: #fffaf0; }
+.btn-green { background-color: #f0fff4; }
+.btn-purple { background-color: #faf5ff; }
+/* End Theme Button Colors */

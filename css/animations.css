@@ -1,0 +1,180 @@
+/* Keyframes */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from { 
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to { 
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Utility Classes */
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+.animate-slide-up {
+    opacity: 0; /* Start hidden for scroll trigger */
+    animation: slideUp 0.8s ease-out forwards;
+}
+
+.animate-scale-in {
+    animation: scaleIn 0.6s ease-out forwards;
+}
+
+/* Staggered Delays (up to 10 items) */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+
+/* Rainbow Gradient Text */
+.gradient-text {
+    background: linear-gradient(
+        to right,
+        #ff0000,
+        #ff7f00,
+        #ffff00,
+        #00ff00,
+        #0000ff,
+        #4b0082,
+        #8f00ff,
+        #ff0000
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradient-flow 5s linear infinite;
+}
+
+@keyframes gradient-flow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Card Hover Effects */
+.template-card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.template-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.15);
+    border-color: var(--primary-color);
+}
+
+.template-card .card-image-container {
+    overflow: hidden;
+}
+
+.template-card .card-image-container img,
+.template-card .card-image-container .placeholder-icon {
+    transition: transform 0.6s ease;
+}
+
+.template-card:hover .card-image-container img,
+.template-card:hover .card-image-container .placeholder-icon {
+    transform: scale(1.1);
+}
+
+.template-card .use-btn {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.template-card:hover .use-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Scroll Trigger Class */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Rainbow Effect */
+@keyframes rainbow-border-pulse {
+    0% { border-color: #ff0000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); }
+    14% { border-color: #ff7f00; box-shadow: 0 0 15px rgba(255, 127, 0, 0.3); }
+    28% { border-color: #ffff00; box-shadow: 0 0 15px rgba(255, 255, 0, 0.3); }
+    42% { border-color: #00ff00; box-shadow: 0 0 15px rgba(0, 255, 0, 0.3); }
+    57% { border-color: #0000ff; box-shadow: 0 0 15px rgba(0, 0, 255, 0.3); }
+    71% { border-color: #4b0082; box-shadow: 0 0 15px rgba(75, 0, 130, 0.3); }
+    85% { border-color: #8f00ff; box-shadow: 0 0 15px rgba(143, 0, 255, 0.3); }
+    100% { border-color: #ff0000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); }
+}
+
+.rainbow-pulse {
+    animation: rainbow-border-pulse 4s linear infinite;
+    border-width: 2px;
+}
+
+/* Elastic Pop In Animation */
+@keyframes elastic-pop {
+    0% { opacity: 0; transform: scale(0.5); }
+    40% { opacity: 1; transform: scale(1.1); }
+    60% { transform: scale(0.95); }
+    80% { transform: scale(1.02); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.animate-pop-in {
+    opacity: 0; /* Start hidden */
+    animation: elastic-pop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Zoom Rotate Animation */
+@keyframes zoom-rotate {
+    0% { opacity: 0; transform: scale(0) rotate(-15deg); }
+    70% { opacity: 1; transform: scale(1.1) rotate(5deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+.animate-zoom-rotate {
+    opacity: 0;
+    animation: zoom-rotate 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Bounce Animation */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(-25%);
+        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+        transform: translateY(0);
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+}
+
+.animate-bounce-slow {
+    animation: bounce 3s infinite;
+}
